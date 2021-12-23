@@ -1,0 +1,22 @@
+Create a relational database to hold all the data as seen in the trms-ERD.png
+front end to handle input/output
+Write junit, mockito testing. cucumber and selenium tests as well
+Have 4 different user types Employee, Direct Supervisor and Department Head, and Benco
+
+Steps in the process:
+1. The employee requests for tuition reimbursement which is then checked by their direct supervisor
+2. The Direct supervisor approves/denies request(if supervisor is department head skip 3)
+3. The department head approves/denies request
+4. Benco approves/denies request
+5. The Direct supervisor grades the employee
+6. Benco approves/denies reimbursement based off of grade
+
+Only employee and Direct supervisor can access grades
+
+employees can create/withdraw request, input grades
+Benco can see pass/fail. Can change reimbursment amount. Aprrove/deny request, reimbursment
+Direct Supervisor can grade, Aprrove/deny request
+The department head can Approve/deny request
+
+on the website create some kind of drop down where I can toggle between different people based off their id/name
+webpage changes apperence and functionality based off of the persons role
