@@ -34,10 +34,6 @@
 		<br>
 		<input type="text" name="Name" size="20">  		
 		<button type="button">Add Comment</button>
-		
-		<br>
-		<input type="text" name="Name" size="20">  		
-		<button type="button">Get Employee</button>
 
 	</body>
 </html>
