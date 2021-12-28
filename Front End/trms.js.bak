@@ -2,7 +2,8 @@ getPets();
 //getPetsAjax();
 
 async function getPets() {
-    let response = await fetch('http://localhost:8080/people');
+    let response = await fetch('http://localhost:8080/pets');
+    // let response = await fetch('http://localhost:8080/pets/8',{method:'PUT', body:JSON.stringify(petObj)});
     
     if (response.status === 200) {
         let pets = await response.json();
@@ -14,7 +15,7 @@ async function getPets() {
 function getPetsAjax() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = getData;
-    xhr.open('GET', 'http://localhost:8080/');
+    xhr.open('GET', 'http://localhost:8080/pets');
     xhr.send();
 
     function getData() {
