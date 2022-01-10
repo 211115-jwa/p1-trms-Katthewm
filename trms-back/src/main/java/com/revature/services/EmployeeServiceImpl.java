@@ -43,6 +43,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Set<Reimbursement> getReimbursementRequests(Employee requestor) {
+		System.out.println("employimpl"+requestor);
+		//Set<Reimbursement> requests = reqDao.getAll();
 		Set<Reimbursement> requests = reqDao.getByRequestor(requestor);
 		requests.forEach(req -> {
 			req.setRequestor(requestor);
@@ -70,5 +72,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee getEmployeeById(int empId) {
 		return empDao.getById(empId);
 	}
+	/*@Override
+	public void addGrade(int grade) 
+	{
+		empDao.addGrade(grade);
+		return;
+	}*/
 
 }

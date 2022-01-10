@@ -1,15 +1,22 @@
 package com.revature.controllers;
 
+import org.eclipse.jetty.http.HttpStatus;
+
 import com.revature.beans.Employee;
 import com.revature.beans.Reimbursement;
+import com.revature.beans.Status;
 import com.revature.services.EmployeeService;
 import com.revature.services.EmployeeServiceImpl;
+import com.revature.services.RequestReviewService;
+import com.revature.services.RequestReviewServiceImpl;
 
 import io.javalin.http.Context;
 import io.javalin.http.HttpCode;
 
 public class RequestsController {
 	private static EmployeeService empServ = new EmployeeServiceImpl();
+	private static RequestReviewService reqServ = new RequestReviewServiceImpl();
+
 	
 	/**
 	 * Retrieves the submitted reimbursement request from the
@@ -64,7 +71,7 @@ public class RequestsController {
 		try {
 			int requestorId = Integer.valueOf(requestorIdStr);
 			Employee requestor = empServ.getEmployeeById(requestorId);
-			
+			System.out.println(requestor.getEmpId());
 			if (requestor != null) {
 				ctx.json(empServ.getReimbursementRequests(requestor));
 			} else {
@@ -74,6 +81,128 @@ public class RequestsController {
 		} catch (NumberFormatException e) {
 			ctx.status(400);
 			ctx.result("Requestor ID must be an integer. Please try again.");
+		}
+	}
+
+	public static void createRequest(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			empServ.submitReimbursementRequest(newRei);//need to get entire request string in here?
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}
+	public static void getOptions(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			empServ.getRequestOptions();
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}
+	public static void getComments(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			//empServ.getComments(newRei)//input reqid into here
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}
+	public static void addcomment(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			//empServ.addComment() //get comment into here
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}
+	/*public static void addgrade(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			empServ.addGrade(); //get comment into here
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}*/
+	
+	
+	
+	public static void acceptRequest(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);
+		
+		/*
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) 
+		{
+			reqServ.approveRequest(newRei);
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}*/
+	}
+	
+	public static void rejectRequest(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			reqServ.rejectRequest(newRei);
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}
+	
+	public static void rejectRequest2(Context ctx) 
+	{		
+		/*Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			reqServ.rejectRequest(newRei);
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}*/
+	}
+	
+	public static void grade(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			//reqServ.grade(newRei, null);//need to get request and comment in here
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}
+	
+	public static void delete(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			reqServ.delete(newRei);
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
+		}
+	}
+	public static void getemployees(Context ctx) 
+	{		
+		Reimbursement newRei = ctx.bodyAsClass(Reimbursement.class);		
+		if (newRei !=null) {
+			reqServ.getallemployees();
+			ctx.status(HttpStatus.CREATED_201);
+		} else {
+			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
 	}
 }

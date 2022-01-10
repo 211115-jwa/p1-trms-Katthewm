@@ -1,0 +1,70 @@
+
+//document.getElementById(`getreimbursements`).onclick = getReimbursements;
+//ocument.getElementById(`getreimbursements`).onclick = getPets();
+//document.getElementById('getreimbursements').onclick = test();
+document.getElementById('btn').onclick = test();
+
+
+/*
+async function getReimbursements() 
+{
+	let userInput = document.getElementById('requestsbyempid').value;
+    let response = await fetch('http://localhost:8080/requestor/' + userInput);
+	//let data = response.json();
+    if (response.status === 200)
+	{
+        let Reimbursements = await response.json();
+		showREI(Reimbursements);
+    }
+	else if (response == '')
+	{
+		alert('response is empty');
+	}
+	else 
+	{
+		alert('404 Error Not Found: No request by id exist');
+	}
+}
+
+*/
+
+
+
+
+function test()
+{
+	document.getElementById('requestbox').value="HELLO";
+}
+
+
+
+async function getPets() {
+	document.getElementByName('requestbox').value="HELLO";
+    let response = await fetch('http://localhost:8080/requestor/' + userInput);
+    
+    if (response.status === 200) {
+        let pets = await response.json();
+        console.log(pets);
+        showREI(pets);
+		let userInput = document.getElementById('requestsbyempid').value;
+    }
+}
+
+
+function showREI(rei) {
+    let petsTable = document.getElementById('reimbursements');
+
+    // for each pet in the array of pets that we got from the back end
+    for (let rei of reis) {
+        let rowForPet = document.createElement('tr');
+
+        // for each field in the pet (yes, we can iterate through fields)
+        for (let field in rei) 
+		{
+            let column = document.createElement('td');
+            column.innerText = rei[field];
+            rowForPet.appendChild(column);
+        }
+        petsTable.appendChild(rowForPet);
+    }
+}

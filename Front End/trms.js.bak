@@ -1,50 +1,61 @@
-getPets();
-//getPetsAjax();
+
+//document.getElementById(`getreimbursements`).onclick = getReimbursements;
+//ocument.getElementById(`getreimbursements`).onclick = getPets();
+document.getElementById(`getreimbursements`).onclick = test();
+/*
+async function getReimbursements() 
+{
+	let userInput = document.getElementById('requestsbyempid').value;
+    let response = await fetch('http://localhost:8080/requestor/' + userInput);
+	//let data = response.json();
+    if (response.status === 200)
+	{
+        let Reimbursements = await response.json();
+		showREI(Reimbursements);
+    }
+	else if (response == '')
+	{
+		alert('response is empty');
+	}
+	else 
+	{
+		alert('404 Error Not Found: No request by id exist');
+	}
+}
+
+*/
+function test()
+{
+	document.getElementById('getreimbursements').value="HELLO";
+}
+
+
 
 async function getPets() {
-    let response = await fetch('http://localhost:8080/pets');
-    // let response = await fetch('http://localhost:8080/pets/8',{method:'PUT', body:JSON.stringify(petObj)});
+	document.getElementByName('requestbox').value="HELLO";
+    let response = await fetch('http://localhost:8080/requestor/' + userInput);
     
     if (response.status === 200) {
         let pets = await response.json();
         console.log(pets);
-        showPets(pets);
+        showREI(pets);
+		let userInput = document.getElementById('requestsbyempid').value;
     }
 }
 
-function getPetsAjax() {
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = getData;
-    xhr.open('GET', 'http://localhost:8080/pets');
-    xhr.send();
 
-    function getData() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                let response = xhr.responseText;
-                let pets = JSON.parse(response);
-                showPets(pets);
-            }
-        }
-    }
-}
-
-function showPets(pets) {
-    let petsTable = document.getElementById('availablePets');
+function showREI(rei) {
+    let petsTable = document.getElementById('reimbursements');
 
     // for each pet in the array of pets that we got from the back end
-    for (let pet of pets) {
+    for (let rei of reis) {
         let rowForPet = document.createElement('tr');
 
         // for each field in the pet (yes, we can iterate through fields)
-        for (let field in pet) {
+        for (let field in rei) 
+		{
             let column = document.createElement('td');
-            if (field!=='status') {
-                // pet[field] gets the value of the field
-                column.innerText = pet[field];
-            } else {
-                column.innerHTML=`<button id="adopt${pet.petId}">Adopt</button>`;
-            }
+            column.innerText = rei[field];
             rowForPet.appendChild(column);
         }
         petsTable.appendChild(rowForPet);

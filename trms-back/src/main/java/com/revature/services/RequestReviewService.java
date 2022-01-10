@@ -57,4 +57,13 @@ public interface RequestReviewService {
 	 * @param request the request to be rejected
 	 */
 	public void rejectRequest(Reimbursement request, Comment comment);
+	
+	public void grade(Reimbursement request, Comment comment);
+
+	public Reimbursement getById(int requestorId);
+
+	Reimbursement delete(Reimbursement request);
+
+	Set<Reimbursement> getallemployees();
+	
 }

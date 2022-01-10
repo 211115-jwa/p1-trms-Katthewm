@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Employee Reimbursement Website</title>
+	</head>
+	
+	<h1 id="target">Employee Reimbursement Website</h1>
+	<body>
+        <link rel="stylesheet" href="trms.css">
+		<script src="./js/trms functions.js"></script>
+
+		<input type="text" name="changeperson" size="20"> 
+		<button type="button">Change Person</button>
+
+		<br>
+		<input type="text" name="requestbox" size="20"> 
+		<input type="text" name="commentbox" size="20"> 
+		<input type="text" name="commentbox" size="20"> 
+		<input type="text" name="commentbox" size="20"> 		
+		<button type="button">Submit Request</button>
+		<br>
+		<input type="text" name="pendingrequestbox" size="20">  
+		<button type="button">Get Pending Request</button>
+		<br>
+		<input type="text" name="approveidbox" size="20">  
+		<button type="button">Approve Request</button>
+		<input type="text" name="rejectidbox" size="20">  		
+		<button type="button">Reject Request</button>
+		<br>
+		<button type="button">Get Comments</button>
+		<br>
+		<input type="text" name="addcommentbox" size="20">  		
+		<button type="button">Add Comment</button>
+		
+		<br>
+		<input type="text" name="getemployeebox" size="20">  		
+		<button type="button">Get Employee</button>
+		
+		<br>
+		<input type="text" name="deletebyid" size="20">  	
+        <button type="button">Delete By ID</button>
+		<br>
+		<br>
+		<br>
+		
+		<input type="text" name="requestsbyempid" size="20">  	
+        <button id="getrequests">Show Requests</button>
+		
+		<table id="reimbursements">
+                <tr>
+                    <th>ReimbursementID</th>
+					<th>EmployeeID</th>
+					<th>EventDate</th>
+					<th>EventTime</th>
+					<th>Location</th>
+					<th>Description</th>
+					<th>Funds</th>
+					<th>GradingId</th>
+					<th>EventId</th>
+					<th>StatusId</th>
+					<th>SubmittedAt</th>
+                </tr>
+            </table>
+			
+			
+			<button onclick="showREI()">Alert</button>
+	</body>
+</html>

@@ -15,14 +15,20 @@ public class Employee {
 	
 	public Employee() {
 		empId=0;
-		firstName="First";
-		lastName="Last";
-		username="";
-		password="";
+		firstName=null;
+		lastName=null;
+		username=null;
+		password=null;
 		role = new Role();
 		funds = 1000.00;
-		supervisor = new Employee();
+		supervisor =new Employee(empId);
 		department = new Department();
+	}
+	
+	public Employee(int empId) 
+	{
+		super();
+		this.empId = empId;
 	}
 
 	public int getEmpId() {

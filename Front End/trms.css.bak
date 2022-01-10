@@ -1,0 +1,22 @@
+body 
+{
+  background-color: lightblue;
+  line-height: 30px;
+
+}
+
+button
+{
+	letter-spacing: 2px;
+	Border-width: 2px;
+}
+
+input
+{
+	Border-width: 2px;
+}
+
+h1
+{
+	font-family: "Papyrus";
+}

@@ -27,7 +27,8 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 		int generatedId=0;
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
-			String[] keys = {"req_Id"};
+			
+			String[] keys = {"req_id"};
 			String sql="insert into reimbursement"
 					+ " (emp_id,"
 					+ " event_date,"
@@ -194,7 +195,9 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 	}
 
 	@Override
-	public void update(Reimbursement dataToUpdate) {
+	public void update(Reimbursement dataToUpdate)
+	{
+		System.out.println("hello");
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
 			String sql="update reimbursement set"
@@ -210,6 +213,7 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 					+ " submitted_at=?"
 					+ " where req_id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			System.out.println("hello"+ pStmt);
 			pStmt.setInt(1, dataToUpdate.getRequestor().getEmpId());
 			pStmt.setDate(2, Date.valueOf(dataToUpdate.getEventDate()));
 			pStmt.setTime(3, Time.valueOf(dataToUpdate.getEventTime()));
@@ -219,10 +223,13 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 			pStmt.setInt(7, dataToUpdate.getGradingFormat().getFormatId());
 			pStmt.setInt(8, dataToUpdate.getEventType().getEventId());
 			pStmt.setInt(9, dataToUpdate.getStatus().getStatusId());
+			System.out.println("status"+dataToUpdate.getStatus().getStatusId());
 			pStmt.setTimestamp(10, Timestamp.valueOf(dataToUpdate.getSubmittedAt()));
 			pStmt.setInt(10, dataToUpdate.getReqId());
 			
 			int rowsAffected = pStmt.executeUpdate();
+			
+			System.out.println("update"+pStmt);
 			if (rowsAffected <= 1) {
 				conn.commit();
 			} else {
@@ -244,6 +251,7 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 			pStmt.setInt(1, dataToDelete.getReqId());
 			
 			int rowsAffected = pStmt.executeUpdate();
+			System.out.println("Deleted");
 			if (rowsAffected <= 1) {
 				conn.commit();
 			} else {
@@ -256,7 +264,9 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 	}
 
 	@Override
-	public Set<Reimbursement> getByRequestor(Employee requestor) {
+	public Set<Reimbursement> getByRequestor(Employee requestor) 
+	{
+		System.out.println("get by requester?"+requestor.getEmpId());
 		Set<Reimbursement> requests = new HashSet<>();
 		try (Connection conn = connUtil.getConnection()) {
 			String sql="select" + 
@@ -284,12 +294,21 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 					+ " where emp_id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, requestor.getEmpId());
-			
+			System.out.println("empid="+requestor.getEmpId());
 			ResultSet resultSet = pStmt.executeQuery();
+			
+			
+			System.out.println("aftersql="+resultSet.getFetchSize());
+
+			
 			while (resultSet.next()) {
 				Reimbursement request = new Reimbursement();
 				request.setReqId(resultSet.getInt("req_id"));
+				
+				//request.setRequestor(requestor);
 				request.getRequestor().setEmpId(resultSet.getInt("emp_id"));
+				System.out.println("getting the data="+resultSet.getInt("emp_id"));
+
 				request.setEventDate(resultSet.getDate("event_date").toLocalDate());
 				request.setEventTime(resultSet.getTime("event_time").toLocalTime());
 				request.setLocation(resultSet.getString("location"));
@@ -320,6 +339,83 @@ public class ReimbursementPostgres implements ReimbursementDAO {
 		return requests;
 	}
 
+	@Override
+	public Set<Reimbursement> getallemployees() 
+	{
+		//System.out.println("get by requester?"+requestor.getEmpId());
+		Set<Reimbursement> requests = new HashSet<>();
+		try (Connection conn = connUtil.getConnection()) {
+			String sql="select" + 
+					" req_id," + 
+					" emp_id," + 
+					" event_date," + 
+					" event_time," + 
+					" location," + 
+					" description," + 
+					" cost," + 
+					" grading_format_id," + 
+					" format_name," + 
+					" example as format_example," + 
+					" event_type_id," + 
+					" type_name," + 
+					" percent_coverage," + 
+					" r.status_id," + 
+					" status_name," + 
+					" approver," + 
+					" submitted_at " + 
+					" from reimbursement r" + 
+					" join grading_format gf on r.grading_format_id=gf.format_id" + 
+					" join event_type et on r.event_type_id=et.type_id" + 
+					" join status s on r.status_id=s.status_id"
+					+ " where emp_id= ";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			//pStmt.setInt(1, requestor.getEmpId());
+			//System.out.println("empid="+requestor.getEmpId());
+			ResultSet resultSet = pStmt.executeQuery();
+			
+			
+			System.out.println("aftersql="+resultSet.getFetchSize());
+
+			
+			while (resultSet.next()) {
+				Reimbursement request = new Reimbursement();
+				request.setReqId(resultSet.getInt("req_id"));
+				
+				//request.setRequestor(requestor);
+				request.getRequestor().setEmpId(resultSet.getInt("emp_id"));
+				System.out.println("getting the data="+resultSet.getInt("emp_id"));
+
+				request.setEventDate(resultSet.getDate("event_date").toLocalDate());
+				request.setEventTime(resultSet.getTime("event_time").toLocalTime());
+				request.setLocation(resultSet.getString("location"));
+				request.setDescription(resultSet.getString("description"));
+				request.setCost(resultSet.getDouble("cost"));
+				GradingFormat gf = new GradingFormat();
+				gf.setFormatId(resultSet.getInt("grading_format_id"));
+				gf.setName(resultSet.getString("format_name"));
+				gf.setExample(resultSet.getString("format_example"));
+				request.setGradingFormat(gf);
+				EventType et = new EventType();
+				et.setEventId(resultSet.getInt("event_type_id"));
+				et.setName(resultSet.getString("type_name"));
+				et.setPercentCovered(resultSet.getDouble("percent_coverage"));
+				request.setEventType(et);
+				Status s = new Status();
+				s.setStatusId(resultSet.getInt("status_id"));
+				s.setName(resultSet.getString("status_name"));
+				s.setApprover(resultSet.getString("approver"));
+				request.setStatus(s);
+				request.setSubmittedAt(resultSet.getTimestamp("submitted_at").toLocalDateTime());
+				
+				requests.add(request);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return requests;
+	}
+	
+	
 	@Override
 	public Set<Reimbursement> getByStatus(Status status) {
 		Set<Reimbursement> requests = new HashSet<>();
